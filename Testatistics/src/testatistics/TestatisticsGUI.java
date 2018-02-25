@@ -39,6 +39,7 @@ public class TestatisticsGUI extends javax.swing.JFrame {
     
     TreeMap<Integer, Integer> histogramData = new TreeMap<Integer, Integer>();
     TreeMap<Float, Integer> markHistogramData = new TreeMap<Float, Integer>();
+    TreeMap<Integer, Integer> goodAnswersHistogramData = new TreeMap<Integer, Integer>();
     
     TemplateParser tparser = new TemplateParser();
     AnswerCardParser acparser = new AnswerCardParser();
@@ -68,7 +69,8 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         chooseAnswerCardsButton = new javax.swing.JButton();
         histogramButton = new javax.swing.JButton();
         infoLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        pointsHistogramButton = new javax.swing.JButton();
+        goodAnswersHistogramButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
@@ -76,6 +78,8 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(640, 500));
         setResizable(false);
         getContentPane().setLayout(new java.awt.CardLayout());
+
+        mainPanel.setBackground(new java.awt.Color(253, 139, 116));
 
         chooseTemplateFileButton.setText("Wybierz plik z szablonem odpowiedzi");
         chooseTemplateFileButton.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -104,31 +108,31 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
+                .addGap(143, 143, 143)
                 .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(chooseTemplateFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(mainPanelLayout.createSequentialGroup()
-                        .addGap(208, 208, 208)
-                        .addComponent(creditsLabel)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chooseTemplateFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(147, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(creditsLabel)
+                .addGap(218, 218, 218))
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(60, 60, 60)
                 .addComponent(chooseTemplateFileButton, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 135, Short.MAX_VALUE)
                 .addComponent(exitButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68)
+                .addGap(67, 67, 67)
                 .addComponent(creditsLabel)
-                .addGap(21, 21, 21))
+                .addGap(22, 22, 22))
         );
 
         getContentPane().add(mainPanel, "card3");
 
+        statisticsPanel.setBackground(new java.awt.Color(172, 229, 199));
         statisticsPanel.setMaximumSize(new java.awt.Dimension(640, 500));
         statisticsPanel.setMinimumSize(new java.awt.Dimension(640, 500));
         statisticsPanel.setName(""); // NOI18N
@@ -149,10 +153,17 @@ public class TestatisticsGUI extends javax.swing.JFrame {
 
         infoLabel.setText("Nie wczytano kart!");
 
-        jButton1.setText("Generuj histogram (punkty)");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        pointsHistogramButton.setText("Generuj histogram (punkty)");
+        pointsHistogramButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                pointsHistogramButtonActionPerformed(evt);
+            }
+        });
+
+        goodAnswersHistogramButton.setText("Generuj histogram (% poprawnych odpowiedzi)");
+        goodAnswersHistogramButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                goodAnswersHistogramButtonActionPerformed(evt);
             }
         });
 
@@ -171,10 +182,11 @@ public class TestatisticsGUI extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(statisticsPanelLayout.createSequentialGroup()
-                .addGap(217, 217, 217)
+                .addGap(145, 145, 145)
                 .addGroup(statisticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(histogramButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(pointsHistogramButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(goodAnswersHistogramButton))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         statisticsPanelLayout.setVerticalGroup(
@@ -184,11 +196,13 @@ public class TestatisticsGUI extends javax.swing.JFrame {
                 .addComponent(chooseAnswerCardsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(infoLabel)
-                .addGap(49, 49, 49)
+                .addGap(53, 53, 53)
                 .addComponent(histogramButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(261, Short.MAX_VALUE))
+                .addComponent(pointsHistogramButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(goodAnswersHistogramButton)
+                .addContainerGap(214, Short.MAX_VALUE))
         );
 
         getContentPane().add(statisticsPanel, "card2");
@@ -243,25 +257,49 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         frame.setSize(400, 400);
     }//GEN-LAST:event_histogramButtonActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void pointsHistogramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pointsHistogramButtonActionPerformed
         histogramData = stats.createResultsHistogram(answerPattern, answerCardCollection);
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        int size = answerCardCollection.size();
-        for (int i = 1; i < size; i++) {
+        int size = answerPattern.size();
+        for (int i = 0; i < size + 1; i++) {
             if (histogramData.get(i) != null) {
                 dataset.addValue((Number)(histogramData.get(i)), "Punkty", i);
                 System.out.print(i + " " + histogramData.get(i) + " ");
                 System.out.print(dataset.getValue("Punkty", i));
                 System.out.println();
-            } else histogramData.put(i, 0);
+            } else dataset.addValue((Number)0, "Punkty", i);
         }
         JFreeChart chart = ChartFactory.createBarChart("Histogram punktów", "Punkty", "Czestotliwość pojawiania się", dataset, PlotOrientation.VERTICAL, false, true, false);
         CategoryPlot plot = chart.getCategoryPlot();
         plot.setRangeGridlinePaint(Color.black);
         ChartFrame frame = new ChartFrame("Punkty", chart);
         frame.setVisible(true);
-        frame.setSize(400, 400);        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        frame.setSize(400, 400);
+    }//GEN-LAST:event_pointsHistogramButtonActionPerformed
+
+    private void goodAnswersHistogramButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_goodAnswersHistogramButtonActionPerformed
+        goodAnswersHistogramData = stats.createGoodAnswersHistogram(answerPattern, answerCardCollection);
+        DefaultCategoryDataset dataset = new DefaultCategoryDataset();
+        int size = answerPattern.size();
+        for (int i = 1; i < size + 1; i++) {
+            if (goodAnswersHistogramData.get(i) != null) {
+                dataset.addValue((Number)(goodAnswersHistogramData.get(i)), "Pytanie", i);
+                System.out.print(i + " " + goodAnswersHistogramData.get(i) + " ");
+                System.out.print(dataset.getValue("Pytanie", i));
+                System.out.println();
+            } else dataset.addValue((Number)0, "Pytanie", i);
+        }
+        for (int j = 1; j < size + 1; j++) {
+            int val = (int)(dataset.getValue("Pytanie", j))*100/(answerCardCollection.size());
+            dataset.setValue((Number)val, "Pytanie", j);
+        }
+        JFreeChart chart = ChartFactory.createBarChart("Histogram poprawnych odpowiedzi wg klucza", "Pytanie", "Procent dobrych odpowiedzi", dataset, PlotOrientation.VERTICAL, false, true, false);
+        CategoryPlot plot = chart.getCategoryPlot();
+        plot.setRangeGridlinePaint(Color.black);
+        ChartFrame frame = new ChartFrame("Pytanie", chart);
+        frame.setVisible(true);
+        frame.setSize(400, 400);
+    }//GEN-LAST:event_goodAnswersHistogramButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -313,10 +351,11 @@ public class TestatisticsGUI extends javax.swing.JFrame {
     private javax.swing.JButton chooseTemplateFileButton;
     private javax.swing.JLabel creditsLabel;
     private javax.swing.JButton exitButton;
+    private javax.swing.JButton goodAnswersHistogramButton;
     private javax.swing.JButton histogramButton;
     private javax.swing.JLabel infoLabel;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel mainPanel;
+    private javax.swing.JButton pointsHistogramButton;
     private javax.swing.JPanel statisticsPanel;
     // End of variables declaration//GEN-END:variables
 }
