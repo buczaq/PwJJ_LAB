@@ -1,6 +1,7 @@
 package testatistics;
 
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,11 +13,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import utility.TemplateParser;
 import org.jfree.chart.*;
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 import javax.swing.JFileChooser;
 import org.jfree.chart.plot.CategoryPlot;
@@ -27,7 +23,12 @@ import utility.ResultsStatistics;
 
 /**
  *
- * @author buczak
+ * @author Krzysztof Buczak, 226153
+ */
+
+/**
+ * 
+ * Klasa odpowiedzialna za tworzenie interfejsu graficznego
  */
 public class TestatisticsGUI extends javax.swing.JFrame {
     
@@ -49,6 +50,7 @@ public class TestatisticsGUI extends javax.swing.JFrame {
     static boolean isTemplateChosen = false;
     
     public TestatisticsGUI() {
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("icon.png"));
         initComponents();
     }
 
@@ -73,6 +75,7 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         goodAnswersHistogramButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Testatistics");
         setBounds(new java.awt.Rectangle(0, 0, 0, 0));
         setMaximumSize(new java.awt.Dimension(640, 500));
         setMinimumSize(new java.awt.Dimension(640, 500));
@@ -289,9 +292,11 @@ public class TestatisticsGUI extends javax.swing.JFrame {
                 System.out.println();
             } else dataset.addValue((Number)0, "Pytanie", i);
         }
-        for (int j = 1; j < size + 1; j++) {
-            int val = (int)(dataset.getValue("Pytanie", j))*100/(answerCardCollection.size());
-            dataset.setValue((Number)val, "Pytanie", j);
+        if (answerCardCollection.size() > 0) {
+            for (int j = 1; j < size + 1; j++) {
+                int val = (int)(dataset.getValue("Pytanie", j))*100/(answerCardCollection.size());
+                dataset.setValue((Number)val, "Pytanie", j);
+            }
         }
         JFreeChart chart = ChartFactory.createBarChart("Histogram poprawnych odpowiedzi wg klucza", "Pytanie", "Procent dobrych odpowiedzi", dataset, PlotOrientation.VERTICAL, false, true, false);
         CategoryPlot plot = chart.getCategoryPlot();
