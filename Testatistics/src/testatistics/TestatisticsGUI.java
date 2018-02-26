@@ -248,9 +248,6 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
         for (Float key : markHistogramData.keySet()) {
             dataset.addValue(markHistogramData.get(key), "Ocena", key);
-            System.out.print(key + " " + markHistogramData.get(key) + " ");
-            System.out.print(dataset.getValue("Ocena", key));
-            System.out.println();
         }
         JFreeChart chart = ChartFactory.createBarChart("Histogram ocen", "Ocena", "Czestotliwość pojawiania się", dataset, PlotOrientation.VERTICAL, false, true, false);
         CategoryPlot plot = chart.getCategoryPlot();
@@ -267,9 +264,6 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         for (int i = 0; i < size + 1; i++) {
             if (histogramData.get(i) != null) {
                 dataset.addValue((Number)(histogramData.get(i)), "Punkty", i);
-                System.out.print(i + " " + histogramData.get(i) + " ");
-                System.out.print(dataset.getValue("Punkty", i));
-                System.out.println();
             } else dataset.addValue((Number)0, "Punkty", i);
         }
         JFreeChart chart = ChartFactory.createBarChart("Histogram punktów", "Punkty", "Czestotliwość pojawiania się", dataset, PlotOrientation.VERTICAL, false, true, false);
@@ -287,9 +281,6 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         for (int i = 1; i < size + 1; i++) {
             if (goodAnswersHistogramData.get(i) != null) {
                 dataset.addValue((Number)(goodAnswersHistogramData.get(i)), "Pytanie", i);
-                System.out.print(i + " " + goodAnswersHistogramData.get(i) + " ");
-                System.out.print(dataset.getValue("Pytanie", i));
-                System.out.println();
             } else dataset.addValue((Number)0, "Pytanie", i);
         }
         if (answerCardCollection.size() > 0) {
