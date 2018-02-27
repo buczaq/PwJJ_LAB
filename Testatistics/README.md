@@ -7,10 +7,10 @@ Wiem, że do repozytorium nie powinno się wrzucać plików z buildu i tak dalej
 
 =====
 
-UŻYCIE
+UŻYCIE: 
 Należy odpalić plik Testatistics.jar z folderu dist. Szablon poprawnych odpowiedzi to plik template.txt, natomiast zbiór kart odpowiedzi to cards.csv - obydwa w folderze głównym.
 
 =====
 
-Dołączona dokumentacja to dokumentacja biblioteki TestatisticsLibrary, dołączonej w formacie jar i zawierającej klasy odpowiedzialne za obliczenia oraz parsowanie. GUI jet na tyle trywialne, iż nie wymaga generowania osobnego javadoca.
+Dołączona dokumentacja to dokumentacja biblioteki TestatisticsLibrary, dołączonej w formacie jar i zawierającej klasy odpowiedzialne za obliczenia oraz parsowanie. GUI jest na tyle trywialne, iż nie wymaga generowania osobnego javadoca.
 
