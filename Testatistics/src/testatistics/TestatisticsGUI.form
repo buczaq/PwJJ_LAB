@@ -147,7 +147,8 @@
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
                       <Component id="histogramButton" max="32767" attributes="0"/>
                       <Component id="pointsHistogramButton" max="32767" attributes="0"/>
-                      <Component id="goodAnswersHistogramButton" min="-2" max="-2" attributes="0"/>
+                      <Component id="goodAnswersHistogramButton" max="32767" attributes="0"/>
+                      <Component id="exitButton1" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
               </Group>
@@ -166,7 +167,9 @@
                   <Component id="pointsHistogramButton" min="-2" max="-2" attributes="0"/>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Component id="goodAnswersHistogramButton" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace pref="214" max="32767" attributes="0"/>
+                  <EmptySpace pref="105" max="32767" attributes="0"/>
+                  <Component id="exitButton1" min="-2" pref="62" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -207,6 +210,14 @@
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="goodAnswersHistogramButtonActionPerformed"/>
+          </Events>
+        </Component>
+        <Component class="javax.swing.JButton" name="exitButton1">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Wyj&#x15b;cie"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="exitButton1ActionPerformed"/>
           </Events>
         </Component>
       </SubComponents>

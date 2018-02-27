@@ -50,7 +50,6 @@ public class TestatisticsGUI extends javax.swing.JFrame {
     static boolean isTemplateChosen = false;
     
     public TestatisticsGUI() {
-        this.setIconImage(Toolkit.getDefaultToolkit().getImage("icon.png"));
         initComponents();
     }
 
@@ -73,6 +72,7 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         infoLabel = new javax.swing.JLabel();
         pointsHistogramButton = new javax.swing.JButton();
         goodAnswersHistogramButton = new javax.swing.JButton();
+        exitButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Testatistics");
@@ -170,6 +170,13 @@ public class TestatisticsGUI extends javax.swing.JFrame {
             }
         });
 
+        exitButton1.setText("Wyjście");
+        exitButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                exitButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout statisticsPanelLayout = new javax.swing.GroupLayout(statisticsPanel);
         statisticsPanel.setLayout(statisticsPanelLayout);
         statisticsPanelLayout.setHorizontalGroup(
@@ -189,7 +196,8 @@ public class TestatisticsGUI extends javax.swing.JFrame {
                 .addGroup(statisticsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(histogramButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pointsHistogramButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(goodAnswersHistogramButton))
+                    .addComponent(goodAnswersHistogramButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(exitButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         statisticsPanelLayout.setVerticalGroup(
@@ -205,7 +213,9 @@ public class TestatisticsGUI extends javax.swing.JFrame {
                 .addComponent(pointsHistogramButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(goodAnswersHistogramButton)
-                .addContainerGap(214, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 105, Short.MAX_VALUE)
+                .addComponent(exitButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(47, 47, 47))
         );
 
         getContentPane().add(statisticsPanel, "card2");
@@ -297,6 +307,10 @@ public class TestatisticsGUI extends javax.swing.JFrame {
         frame.setSize(400, 400);
     }//GEN-LAST:event_goodAnswersHistogramButtonActionPerformed
 
+    private void exitButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exitButton1ActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_exitButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -347,6 +361,7 @@ public class TestatisticsGUI extends javax.swing.JFrame {
     private javax.swing.JButton chooseTemplateFileButton;
     private javax.swing.JLabel creditsLabel;
     private javax.swing.JButton exitButton;
+    private javax.swing.JButton exitButton1;
     private javax.swing.JButton goodAnswersHistogramButton;
     private javax.swing.JButton histogramButton;
     private javax.swing.JLabel infoLabel;
