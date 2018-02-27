@@ -1,0 +1,27 @@
+<?xml version = "1.0"?>
+<questionDatabase>
+	<question number = "1">
+		<rightAnswer>A</rightAnswer>
+		<wrongAnswer>B</wrongAnswer>
+		<wrongAnswer>C</wrongAnswer>
+		<wrongAnswer>D</wrongAnswer>
+	</question>
+	<question number = "2">
+		<wrongAnswer>A</wrongAnswer>
+		<rightAnswer>B</rightAnswer>
+		<wrongAnswer>C</wrongAnswer>
+		<wrongAnswer>D</wrongAnswer>
+	</question>
+	<question number = "3">
+		<wrongAnswer>A</wrongAnswer>
+		<wrongAnswer>B</wrongAnswer>
+		<rightAnswer>C</rightAnswer>
+		<wrongAnswer>D</wrongAnswer>
+	</question>
+	<question number = "4">
+		<wrongAnswer>A</wrongAnswer>
+		<wrongAnswer>B</wrongAnswer>
+		<wrongAnswer>C</wrongAnswer>
+		<rightAnswer>D</rightAnswer>
+	</question>
+</questionDatabase>

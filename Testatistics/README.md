@@ -14,3 +14,6 @@ Należy odpalić plik Testatistics.jar z folderu dist. Szablon poprawnych odpowi
 
 Dołączona dokumentacja to dokumentacja biblioteki TestatisticsLibrary, dołączonej w formacie jar i zawierającej klasy odpowiedzialne za obliczenia oraz parsowanie. GUI jest na tyle trywialne, iż nie wymaga generowania osobnego javadoca.
 
+=====
+
+Podstawowe testy JUnit dostępne w pliku ParsingTest.java, pod katalogiem test/tests.
