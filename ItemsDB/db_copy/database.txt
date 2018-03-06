@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<database>
+	<item name="item1_name">
+		<price>item1_price</price>
+		<size>item1_size</size>
+		<color>item1_color</color>
+	</item>
+	<item name="item2_name">
+		<price>item2_price</price>
+		<size>item2_size</size>
+		<color>item2_color</color>
+	</item>
+	<item name="item3_name">
+		<price>item3_price</price>
+		<size>item3_size</size>
+		<color>item3_color</color>
+	</item>
+	<item name="item4_name">
+		<price>item4_price</price>
+		<size>item4_size</size>
+		<color>item4_color</color>
+	</item>
+	<item name="item5_name">
+		<price>item5_price</price>
+		<size>item5_size</size>
+		<color>item5_color</color>
+	</item>
+</database>
