@@ -17,17 +17,8 @@ import javax.imageio.ImageIO;
  */
 public class MirrorReflection {
     
-    public static void reflect(BufferedImage img, File f) throws IOException
+public static void reflect(BufferedImage img, File f) throws IOException
 {
-    int width  = img.getWidth();
-    int height = img.getHeight();
-    BufferedImage newImage = new BufferedImage(width, height, img.getType());
-    System.out.println("sciezka: " + f.getAbsolutePath());
-    for( int i=0 ; i < width ; i++ )
-        for( int j=0 ; j < height ; j++)
-            newImage.setRGB(width - i - 1, j, img.getRGB(i,j));
-    Files.deleteIfExists(f.toPath()); 
-    ImageIO.write(newImage, "jpg", f);
 }
     
 }

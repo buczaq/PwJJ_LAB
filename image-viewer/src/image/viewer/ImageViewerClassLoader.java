@@ -22,9 +22,13 @@ DERIVATIVES.
  */
 package image.viewer;
 
+import java.awt.image.BufferedImage;
 import java.util.Hashtable;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.FileInputStream;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 public class ImageViewerClassLoader extends ClassLoader {
  private Hashtable classes = new Hashtable();
  public ImageViewerClassLoader() { 
@@ -98,4 +102,29 @@ public class ImageViewerClassLoader extends ClassLoader {
  System.out.println(" &gt;&gt;&gt;&gt;&gt;&gt; Returning newly loaded class " + className);
  return result;
  }
+ 
+ 	public void invokeClassMethod(String classBinName, String methodName, BufferedImage img, File f){
+		
+		try {
+			// Load the target class using its binary name
+	        Class loadedMyClass = loadClass(classBinName);
+	        
+	        System.out.println("Loaded class name: " + loadedMyClass.getName());
+	        
+	        // Create a new instance from the loaded class
+	        Constructor constructor = loadedMyClass.getConstructor();
+	        Object myClassObject = constructor.newInstance();
+	        
+	        // Getting the target method from the loaded class and invoke it using its name
+	        Method method = loadedMyClass.getMethod(methodName, BufferedImage.class, File.class);
+	        System.out.println("Invoked method name: " + method.getName());
+	        method.invoke(myClassObject, img, f);
+
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
 } 

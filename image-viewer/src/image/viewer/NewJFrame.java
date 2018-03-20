@@ -45,6 +45,8 @@ public class NewJFrame extends javax.swing.JFrame {
     };
 
 volatile private boolean updateThumbnails = false;
+
+volatile private boolean needRepainting = false;
     
 public Map<String, WeakReference> thumbnails = new TreeMap<String, WeakReference>();
 
@@ -72,6 +74,7 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
     public void openFileChooser()
     {
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setApproveButtonText("Open");
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         fileChooser.setVisible(true);
         int option = fileChooser.showSaveDialog(null);
@@ -95,11 +98,22 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
                             Image img = null;
                             System.out.println("dibag");
                             try {
-                                img = ImageIO.read(f);
-                                Image thumbnail = createThumbnail(img);
-                                thumbnails.put(f.getPath(), new WeakReference(new JLabel(new ImageIcon(thumbnail))));
-                                //JLabel picLabel = new JLabel(new ImageIcon(thumbnail));
-                                JLabel picLabel = (JLabel) thumbnails.get(f.getPath()).get();
+                                JLabel picLabel = null;
+                                boolean alreadyExists = false;
+                                for(String k : thumbnails.keySet()) {
+                                    if(k.equals(f.getPath())) {
+                                        picLabel = (JLabel) thumbnails.get(f.getPath()).get();
+                                        alreadyExists = true;
+                                        break;
+                                    }
+                                }
+                                if(!alreadyExists || needRepainting) {
+                                    img = ImageIO.read(f);
+                                    Image thumbnail = createThumbnail(img);
+                                    thumbnails.put(f.getPath(), new WeakReference(new JLabel(new ImageIcon(thumbnail))));
+                                    //JLabel picLabel = new JLabel(new ImageIcon(thumbnail));
+                                    picLabel = (JLabel) thumbnails.get(f.getPath()).get();
+                                }
                         if (picLabel != null) {
                             javax.swing.JPopupMenu menu = new javax.swing.JPopupMenu();
                             
@@ -109,10 +123,12 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
                                     public void actionPerformed(java.awt.event.ActionEvent evt)
                                     {
                                         System.out.println("klikd");
-                                        RotateImage r = new RotateImage();
+                                        //RotateImage r = new RotateImage();
                                         try {
-                                            r.rotate(ImageIO.read(f), f);
+                                            ImageViewerClassLoader cl = new ImageViewerClassLoader();
+                                            cl.invokeClassMethod("RotateImage", "rotate", ImageIO.read(f), f);
                                             updateThumbnails = true;
+                                            needRepainting = true;
                                         } catch (IOException ex) {
                                             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
                                         }
@@ -126,10 +142,12 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
                                     public void actionPerformed(java.awt.event.ActionEvent evt)
                                     {
                                         System.out.println("klikd");
-                                        MakeNegative r = new MakeNegative();
+                                        //MakeNegative r = new MakeNegative();
                                         try {
-                                            r.negative(ImageIO.read(f), f);
+                                            ImageViewerClassLoader cl = new ImageViewerClassLoader();
+                                            cl.invokeClassMethod("MakeNegative", "negative", ImageIO.read(f), f);
                                             updateThumbnails = true;
+                                            needRepainting = true;
                                         } catch (IOException ex) {
                                             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
                                         }
@@ -137,22 +155,43 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
                                 });
                             menu.add(mi2);
                             
-                            JMenuItem mi3 = new JMenuItem("reflection");
+                            JMenuItem mi3 = new JMenuItem("reflection horizontal");
                             mi3.addActionListener(new java.awt.event.ActionListener()
                                 {
                                     public void actionPerformed(java.awt.event.ActionEvent evt)
                                     {
                                         System.out.println("klikd");
-                                        MirrorReflection r = new MirrorReflection();
+                                        //MirrorReflection r = new MirrorReflection();
                                         try {
-                                            r.reflect(ImageIO.read(f), f);
+                                            ImageViewerClassLoader cl = new ImageViewerClassLoader();
+                                            cl.invokeClassMethod("ReflectHorizontal", "reflect", ImageIO.read(f), f);
                                             updateThumbnails = true;
+                                            needRepainting = true;
                                         } catch (IOException ex) {
                                             Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
                                         }
                                     }
                                 });
                             menu.add(mi3);
+                            
+                            JMenuItem mi4 = new JMenuItem("reflection vertical");
+                            mi4.addActionListener(new java.awt.event.ActionListener()
+                                {
+                                    public void actionPerformed(java.awt.event.ActionEvent evt)
+                                    {
+                                        System.out.println("klikd");
+                                        //MirrorReflection r = new MirrorReflection();
+                                        try {
+                                            ImageViewerClassLoader cl = new ImageViewerClassLoader();
+                                            cl.invokeClassMethod("ReflectVertical", "reflect", ImageIO.read(f), f);
+                                            updateThumbnails = true;
+                                            needRepainting = true;
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                });
+                            menu.add(mi4);
                             
                             picLabel.addMouseListener(new MouseAdapter()  
                                 {
@@ -183,6 +222,7 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
                 }
                 System.out.println("---");
                 updateThumbnails = false;
+                needRepainting = false;
                 }
             }
     }});
@@ -199,7 +239,6 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
         jFrame1 = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
         thumbnailsCanvas = new javax.swing.JPanel();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
@@ -226,13 +265,6 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
             }
         });
 
-        jButton2.setText("Show files");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
         thumbnailsCanvas.setBackground(new java.awt.Color(204, 204, 204));
         thumbnailsCanvas.setLayout(new java.awt.GridLayout(3, 4));
 
@@ -243,24 +275,17 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(2, 2, 2))
-                    .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(2, 2, 2)
+                .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -287,15 +312,6 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         openFileChooser();
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        ImageViewerClassLoader cl = new ImageViewerClassLoader();
-        try {
-            cl.loadClass("samplelele");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -334,7 +350,6 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel thumbnailsCanvas;

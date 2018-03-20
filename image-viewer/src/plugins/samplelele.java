@@ -10,9 +10,13 @@ package plugins;
  * @author buczak
  */
 public class samplelele {
-    int exmpl;
-    public samplelele()
+    //int exmpl;
+    //public samplelele()
+    //{
+    //    exmpl = 1;
+    //}
+    public void hello()
     {
-        exmpl = 1;
+        System.out.println("hello");
     }
 }
