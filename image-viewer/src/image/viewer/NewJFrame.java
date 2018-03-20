@@ -289,7 +289,12 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        System.out.println(updateThumbnails);
+        ImageViewerClassLoader cl = new ImageViewerClassLoader();
+        try {
+            cl.loadClass("samplelele");
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
