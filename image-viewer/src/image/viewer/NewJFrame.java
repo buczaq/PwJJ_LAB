@@ -71,20 +71,6 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
         getImages.start();
     }
     
-    public void openFileChooser()
-    {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setApproveButtonText("Open");
-        fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-        fileChooser.setVisible(true);
-        int option = fileChooser.showSaveDialog(null);
-        if (option == JFileChooser.APPROVE_OPTION) {
-            folderPath = fileChooser.getSelectedFile();
-            updateThumbnails = true;
-        }
-        System.out.println(folderPath);
-    }
-    
     Thread getImages = new Thread(new Runnable() { 
         public void run()
         {
@@ -238,8 +224,8 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
 
         jFrame1 = new javax.swing.JFrame();
         jPanel1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
         thumbnailsCanvas = new javax.swing.JPanel();
+        jFileChooser1 = new javax.swing.JFileChooser();
 
         javax.swing.GroupLayout jFrame1Layout = new javax.swing.GroupLayout(jFrame1.getContentPane());
         jFrame1.getContentPane().setLayout(jFrame1Layout);
@@ -253,20 +239,24 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("image-viewer");
         setBackground(new java.awt.Color(102, 102, 102));
-        setMinimumSize(new java.awt.Dimension(400, 600));
-
-        jPanel1.setBackground(new java.awt.Color(153, 153, 153));
-
-        jButton1.setText("Choose folder");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
+        setMinimumSize(new java.awt.Dimension(400, 700));
 
         thumbnailsCanvas.setBackground(new java.awt.Color(204, 204, 204));
         thumbnailsCanvas.setLayout(new java.awt.GridLayout(3, 4));
+
+        jFileChooser1.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
+        jFileChooser1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jFileChooser1MouseClicked(evt);
+            }
+        });
+        jFileChooser1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFileChooser1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -274,18 +264,18 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
-                .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addComponent(jFileChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -309,9 +299,14 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        openFileChooser();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jFileChooser1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jFileChooser1MouseClicked
+        
+    }//GEN-LAST:event_jFileChooser1MouseClicked
+
+    private void jFileChooser1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFileChooser1ActionPerformed
+        folderPath = jFileChooser1.getSelectedFile();
+        if (folderPath != null) updateThumbnails = true;
+    }//GEN-LAST:event_jFileChooser1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -349,7 +344,7 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel thumbnailsCanvas;
