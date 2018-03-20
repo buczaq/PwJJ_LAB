@@ -15,18 +15,19 @@ import javax.imageio.ImageIO;
  *
  * @author buczak
  */
-public class RotateImage {
+public class MirrorReflection {
     
-public static void rotate(BufferedImage img, File f) throws IOException
+    public static void reflect(BufferedImage img, File f) throws IOException
 {
     int width  = img.getWidth();
     int height = img.getHeight();
-    BufferedImage newImage = new BufferedImage( height, width, img.getType() );
+    BufferedImage newImage = new BufferedImage(width, height, img.getType());
     System.out.println("sciezka: " + f.getAbsolutePath());
     for( int i=0 ; i < width ; i++ )
-        for( int j=0 ; j < height ; j++ )
-            newImage.setRGB( height-1-j, i, img.getRGB(i,j) );
+        for( int j=0 ; j < height ; j++)
+            newImage.setRGB(width - i - 1, j, img.getRGB(i,j));
     Files.deleteIfExists(f.toPath()); 
     ImageIO.write(newImage, "jpg", f);
 }
+    
 }

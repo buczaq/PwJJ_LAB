@@ -100,7 +100,7 @@
                       <Component id="jButton2" alignment="0" min="-2" pref="44" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="thumbnailsCanvas" max="32767" attributes="0"/>
+                  <Component id="thumbnailsCanvas" pref="293" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>

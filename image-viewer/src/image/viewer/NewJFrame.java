@@ -17,12 +17,18 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import plugins.MakeNegative;
+import plugins.MirrorReflection;
+import plugins.RotateImage;
 
 /**
  *
@@ -95,11 +101,65 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
                                 //JLabel picLabel = new JLabel(new ImageIcon(thumbnail));
                                 JLabel picLabel = (JLabel) thumbnails.get(f.getPath()).get();
                         if (picLabel != null) {
+                            javax.swing.JPopupMenu menu = new javax.swing.JPopupMenu();
+                            
+                            JMenuItem mi1 = new JMenuItem("rotate");
+                            mi1.addActionListener(new java.awt.event.ActionListener()
+                                {
+                                    public void actionPerformed(java.awt.event.ActionEvent evt)
+                                    {
+                                        System.out.println("klikd");
+                                        RotateImage r = new RotateImage();
+                                        try {
+                                            r.rotate(ImageIO.read(f), f);
+                                            updateThumbnails = true;
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                });
+                            menu.add(mi1);
+                            
+                            JMenuItem mi2 = new JMenuItem("negative");
+                            mi2.addActionListener(new java.awt.event.ActionListener()
+                                {
+                                    public void actionPerformed(java.awt.event.ActionEvent evt)
+                                    {
+                                        System.out.println("klikd");
+                                        MakeNegative r = new MakeNegative();
+                                        try {
+                                            r.negative(ImageIO.read(f), f);
+                                            updateThumbnails = true;
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                });
+                            menu.add(mi2);
+                            
+                            JMenuItem mi3 = new JMenuItem("reflection");
+                            mi3.addActionListener(new java.awt.event.ActionListener()
+                                {
+                                    public void actionPerformed(java.awt.event.ActionEvent evt)
+                                    {
+                                        System.out.println("klikd");
+                                        MirrorReflection r = new MirrorReflection();
+                                        try {
+                                            r.reflect(ImageIO.read(f), f);
+                                            updateThumbnails = true;
+                                        } catch (IOException ex) {
+                                            Logger.getLogger(NewJFrame.class.getName()).log(Level.SEVERE, null, ex);
+                                        }
+                                    }
+                                });
+                            menu.add(mi3);
+                            
                             picLabel.addMouseListener(new MouseAdapter()  
                                 {
                                     public void mouseClicked(MouseEvent e)  
                                     {  
                                         System.out.println("kliknieto miniaturke ");
+                                        menu.show(e.getComponent(), e.getX(), e.getY());
                                     }
                                 });
                                 thumbnailsCanvas.add(picLabel);
@@ -117,7 +177,7 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
                     int lycznyk = 0;
                     for(String path : thumbnails.keySet()) {
                     if(thumbnails.get(path).get() != null) {
-                        System.out.println(lycznyk + " kanaopka");
+                        System.out.println(lycznyk + " kanapka");
                         lycznyk++;
                     }
                 }
@@ -200,7 +260,7 @@ public FilenameFilter IMAGE_FILTER = new FilenameFilter() {
                         .addGap(2, 2, 2))
                     .addComponent(jButton2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(thumbnailsCanvas, javax.swing.GroupLayout.DEFAULT_SIZE, 293, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
