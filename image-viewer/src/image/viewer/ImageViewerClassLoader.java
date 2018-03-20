@@ -41,7 +41,7 @@ public class ImageViewerClassLoader extends ClassLoader {
  System.out.println(" &gt;&gt;&gt;&gt;&gt;&gt; Fetching the implementation of "+className);
  byte result[];
  try {
- FileInputStream fi = new FileInputStream("build/classes/plugins/" + className + ".class");
+ FileInputStream fi = new FileInputStream("plugins/" + className + ".class");
  result = new byte[fi.available()];
  fi.read(result);
  return result;
