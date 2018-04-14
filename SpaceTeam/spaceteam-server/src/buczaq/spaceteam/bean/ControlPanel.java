@@ -129,12 +129,20 @@ public class ControlPanel extends JPanel implements Serializable {
 		panelTextDevice.add(tfTextDevice);
 		tfTextDevice.setColumns(10);
 
-		btnActionDone = new JButton("Wykonano komendę");
+		btnActionDone = new JButton("Komenda wykonana");
 		btnActionDone.setBounds(12, 362, 426, 25);
 		add(btnActionDone);
 
 		panelCommand = new JPanel();
+		panelCommand.setBackground(Color.ORANGE);
+		panelCommand.setBounds(12, 13, 438, 39);
 		add(panelCommand);
+
+		lblCommanderSays = new JLabel("Rozkaz kapitana: \"");
+		panelCommand.add(lblCommanderSays);
+
+		lblCurrentCommand = new JLabel("");
+		panelCommand.add(lblCurrentCommand);
 
 		label = new JLabel("\"");
 		panelCommand.add(label);
