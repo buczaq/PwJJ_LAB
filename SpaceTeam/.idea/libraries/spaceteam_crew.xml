@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="spaceteam-crew">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/spaceteam-crew/jgoodies-forms-1.8.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spaceteam-crew/jgoodies-forms-1.8.0-sources.jar!/" />
+      <root url="jar://$PROJECT_DIR$/spaceteam-crew/miglayout-src.zip!/" />
+      <root url="jar://$PROJECT_DIR$/spaceteam-crew/miglayout15-swing.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

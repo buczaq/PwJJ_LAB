@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/spaceteam-captain/spaceteam-captain.iml" filepath="$PROJECT_DIR$/spaceteam-captain/spaceteam-captain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spaceteam-crew/spaceteam-crew.iml" filepath="$PROJECT_DIR$/spaceteam-crew/spaceteam-crew.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spaceteam-server/spaceteam-server.iml" filepath="$PROJECT_DIR$/spaceteam-server/spaceteam-server.iml" />
+    </modules>
+  </component>
+</project>
