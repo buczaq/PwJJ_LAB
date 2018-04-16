@@ -12,6 +12,7 @@ public class GUI extends JFrame {
     private JButton pokażOsobnikiNajsilniejszeButton;
     private JButton eksportujBazeDoXMLButton;
     private JTextArea wynikTextArea;
+    private JButton klWieleButton;
 
     public GUI() {
         super("bacteria");
@@ -47,6 +48,13 @@ public class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 DataProcessing dp = new DataProcessing();
                 wynikTextArea.setText(dp.strongest());
+            }
+        });
+        klWieleButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DataProcessing dp = new DataProcessing();
+                dp.clasifyMany(genotypTextField.getText(), Integer.parseInt(dokladnoscField.getText()));
             }
         });
     }

@@ -87,15 +87,20 @@ public class DataProcessing {
 
             String cltemp = "" + cl[0] + cl[1];
 
-            /*
-            String sql = "INSERT INTO examined VALUES(" + genotypeBackup + ", '" + cl[0] + cl[1] + "')";
-            System.out.println(sql);
-            statement.executeQuery(sql);
-            sql = "INSERT INTO flagella VALUES(" + alpha + ", " + beta + ", '" + cl[0] + "')";
-            statement.executeQuery(sql);
-            sql = "INSERT INTO toughness VALUES(" + beta + ", " + gamma + ", '" + cl[1] + "')";
-            statement.executeQuery(sql);
-            */
+            ResultSet exists = statement.executeQuery("SELECT * FROM examined WHERE genotype = " + genotypeBackup);
+
+            if (exists.next()) {
+                statement.executeQuery("UPDATE examined SET class='" + cltemp + "' WHERE genotype = " + genotypeBackup);
+            }
+            else {
+                String sql = "INSERT INTO examined VALUES(" + genotypeBackup + ", '" + cl[0] + cl[1] + "')";
+                System.out.println(sql);
+                statement.executeQuery(sql);
+                sql = "INSERT INTO flagella VALUES(" + alpha + ", " + beta + ", '" + cl[0] + "')";
+                statement.executeQuery(sql);
+                sql = "INSERT INTO toughness VALUES(" + beta + ", " + gamma + ", '" + cl[1] + "')";
+                statement.executeQuery(sql);
+            }
 
             return "Genotyp sklasyfikowano jako " + cltemp;
         }
@@ -104,6 +109,122 @@ public class DataProcessing {
         }
         return "";
     }
+
+    public static void clasifyMany(String genotype, int range)
+    {
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mariadb://localhost:3306/bacteria?user=buczaq&password=123456");
+            System.out.println("connected");
+
+            Statement statement = connection.createStatement();
+            String genotypes = genotype.replaceAll("[^0-9]", "");
+            long genes = Long.parseLong(genotypes);
+            int numberOfGenotypes = genotypes.length();
+
+            long genesArray[] = new long[numberOfGenotypes * 6];
+
+            for (int i = (numberOfGenotypes - 1); i >= 0; i--) {
+                genesArray[i] = genes%10;
+                genes /= 10;
+            }
+
+            String templateQueryF = "INSERT INTO flagella VALUES(?, ?, ?)";
+            String templateQueryT = "INSERT INTO toughness VALUES(?, ?, ?)";
+            String templateQueryE = "INSERT INTO examined VALUES(?, ?)";
+
+            PreparedStatement psF = connection.prepareStatement(templateQueryF);
+            PreparedStatement psT = connection.prepareStatement(templateQueryT);
+            PreparedStatement psE = connection.prepareStatement(templateQueryE);
+
+            for (int i = 0; i < (numberOfGenotypes - 1);) {
+                ResultSet result_set1 = statement.executeQuery("SELECT * FROM flagella");
+                ResultSet result_set2 = statement.executeQuery("SELECT * FROM toughness");
+
+                int TA = 0;
+                int TB = 0;
+                int TC = 0;
+                int TD = 0;
+                int F1 = 0;
+                int F2 = 0;
+                int F3 = 0;
+                int F4 = 0;
+
+                long alpha = genesArray[i] * 10 + genesArray[i + 5];
+                long beta = genesArray[i + 1] * 10 + genesArray[i + 4];
+                long gamma = genesArray[i + 2] * 10 + genesArray[i + 3];
+
+                System.out.println("examined gene is: ALPHA=" + alpha + " BETA=" + beta + " GAMMA=" + gamma);
+                while (result_set1.next()) {
+                    int a = result_set1.getInt("alpha");
+                    int b = result_set1.getInt("beta");
+                    int n = result_set1.getInt("number");
+                    if (Math.abs(a - alpha) <= range && Math.abs(b - beta) <= range) {
+                        if (n == 1) F1++;
+                        else if (n == 2) F2++;
+                        else if (n == 3) F3++;
+                        else if (n == 4) F4++;
+                    }
+                }
+
+                while (result_set2.next()) {
+                    int b = result_set2.getInt("beta");
+                    int g = result_set2.getInt("gamma");
+                    String t = result_set2.getString("rank");
+                    if (Math.abs(b - beta) <= range && Math.abs(g - gamma) <= range) {
+                        if (t.equals("a")) TA++;
+                        else if (t.equals("b")) TB++;
+                        else if (t.equals("c")) TC++;
+                        else if (t.equals("d")) TD++;
+                    }
+                }
+
+                System.out.println("TA:" + TA + " TB:" + TB + " TC:" + TC + " TD:" + TD + " F1:" + F1 + " F2:" + F2 + " F3:" + F3 + " F4:" + F4);
+
+                char[] cl = new char[2];
+
+                if (F1 >= F2 && F1 >= F3 && F1 >= F4) cl[0] = '1';
+                else if (F2 >= F1 && F2 >= F3 && F2 >= F4) cl[0] = '2';
+                else if (F3 >= F1 && F3 >= F2 && F3 >= F4) cl[0] = '3';
+                else cl[0] = '4';
+
+                if (TA >= TB && TA >= TC && TA >= TD) cl[1] = 'a';
+                else if (TB >= TA && TB > TC && TB >= TD) cl[1] = 'b';
+                else if (TC >= TA && TC > TB && TC >= TD) cl[1] = 'c';
+                else cl[1] = 'd';
+
+                String cltemp = "" + cl[0] + cl[1];
+
+                int gn = (int)(genesArray[i]*100000 + genesArray[i+1]*10000 +genesArray[i+2]*1000 +genesArray[i+3]*100 +genesArray[i+4]*10 +genesArray[i]);
+
+                psF.setInt(1, (int)alpha);
+                psF.setInt(2, (int)beta);
+                psF.setInt(3, cl[0] - 48);
+                psF.addBatch();
+
+                psT.setInt(1, (int)beta);
+                psT.setInt(2, (int)gamma);
+                psT.setString(3, new String("" + cl[1]));
+                psT.addBatch();
+
+                psE.setInt(1, gn);
+                psE.setString(2, cltemp);
+                psE.addBatch();
+
+                i += 6;
+            }
+
+            psF.executeBatch();
+            psT.executeBatch();
+            psE.executeBatch();
+
+        }
+        catch (Exception e) {
+            System.out.println("error :( " + e);
+            e.printStackTrace();
+        }
+    }
+
+
 
     public String strongest()
     {
@@ -125,6 +246,7 @@ public class DataProcessing {
         }
         catch (Exception e) {
             System.out.println("error :( " + e);
+            e.printStackTrace();
         }
         return "";
     }
