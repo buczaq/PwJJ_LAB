@@ -1,0 +1,5 @@
+keystore "keystore.jks";
+
+grant SignedBy "mydomain" {
+  permission java.io.FilePermission "file.txt", "read";
+};

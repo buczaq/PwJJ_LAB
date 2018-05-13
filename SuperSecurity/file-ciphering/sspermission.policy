@@ -1,0 +1,4 @@
+grant {
+  permission java.security.AllPermission;
+  permission java.io.FilePermission "C:\Users\Krzysztof\Desktop\java\super-security\out\artifacts\super_security_jar\file.txt", "read";
+};
